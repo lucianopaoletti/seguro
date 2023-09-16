@@ -1,0 +1,5 @@
+# Ignora todos los archivos
+*
+
+# Archivos a mantener
+!.gitignore

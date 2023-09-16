@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+    database:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+            MYSQL_DATABASE: seguros
+            MYSQL_USER: sistema
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+        secrets:
+            - db_root_password
+            - db_password
+        volumes:
+            - ./database:/docker-entrypoint-initdb.d
+        ports:
+            - "3306:3306"
+
+secrets:
+    db_root_password:
+        file: ./credenciales/db_root_password.txt
+    db_password:
+        file: ./credenciales/db_password.txt
