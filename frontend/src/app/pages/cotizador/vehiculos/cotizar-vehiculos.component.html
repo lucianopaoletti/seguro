@@ -1,0 +1,18 @@
+<h1>Cotizar Vehiculos</h1>
+
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label>Marca</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="marca">
+        <nz-option
+          *ngFor="let marca of marcas$ | async"
+          [nzValue]="marca.id"
+          [nzLabel]="marca.nombre"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary">Cotizar</button>
+</form>
