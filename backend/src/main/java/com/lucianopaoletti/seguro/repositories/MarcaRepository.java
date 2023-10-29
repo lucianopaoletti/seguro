@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.lucianopaoletti.seguro.repositories.entities.Marca;
 
 @Repository
-public interface MarcaRepository extends CrudRepository<Marca, Integer>{
-
+public interface MarcaRepository extends CrudRepository<Marca, Integer> {
 }

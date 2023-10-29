@@ -4,11 +4,34 @@
   <nz-form-item>
     <nz-form-label>Marca</nz-form-label>
     <nz-form-control>
-      <nz-select formControlName="marca">
+      <nz-select
+        formControlName="marca"
+        (ngModelChange)="marcaChange($event)"
+        [nzLoading]="isMarcasLoading"
+        nzPlaceHolder="Seleccione"
+      >
         <nz-option
           *ngFor="let marca of marcas$ | async"
           [nzValue]="marca.id"
           [nzLabel]="marca.nombre"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Modelo</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="modelo"
+        [nzLoading]="isModelosLoading"
+        nzPlaceHolder="Seleccione"
+        [nzDisabled]="form.get('marca')?.value === null"
+      >
+        <nz-option
+          *ngFor="let modelo of modelos$ | async"
+          [nzValue]="modelo.id"
+          [nzLabel]="modelo.nombre"
         ></nz-option>
       </nz-select>
     </nz-form-control>
