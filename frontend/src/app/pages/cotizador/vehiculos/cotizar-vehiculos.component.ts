@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Observable, finalize, of } from 'rxjs';
 import { Modelo } from './types/modelo.type';
+import { Version } from './types/version.type';
 
 @Component({
   templateUrl: './cotizar-vehiculos.component.html',
@@ -23,6 +24,9 @@ export class CotizarVehiculosComponent {
   isModelosLoading = false;
   modelos$: Observable<Modelo[]> = of([]);
 
+  isVersionesLoading = false;
+  versiones$: Observable<Version[]> = of([]);
+
   private _buildForm() {
     return this.fb.group({
       marca: [],
@@ -39,6 +43,15 @@ export class CotizarVehiculosComponent {
     this.modelos$ = this.cotizadorService
       .getModelos(marcaId)
       .pipe(finalize(() => (this.isModelosLoading = false)));
+  }
+
+  modeloChange(modeloId: number) {
+    this.form.controls['version'].reset();
+
+    this.isVersionesLoading = true;
+    this.versiones$ = this.cotizadorService
+      .getVersiones(modeloId)
+      .pipe(finalize(() => (this.isVersionesLoading = false)));
   }
 
   submitForm() {

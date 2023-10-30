@@ -24,6 +24,7 @@
     <nz-form-control>
       <nz-select
         formControlName="modelo"
+        (ngModelChange)="modeloChange($event)"
         [nzLoading]="isModelosLoading"
         nzPlaceHolder="Seleccione"
         [nzDisabled]="form.get('marca')?.value === null"
@@ -32,6 +33,24 @@
           *ngFor="let modelo of modelos$ | async"
           [nzValue]="modelo.id"
           [nzLabel]="modelo.nombre"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Versión</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="version"
+        [nzLoading]="isVersionesLoading"
+        nzPlaceHolder="Seleccione"
+        [nzDisabled]="form.get('modelo')?.value === null"
+      >
+        <nz-option
+          *ngFor="let version of versiones$ | async"
+          [nzValue]="version.id"
+          [nzLabel]="version.nombre"
         ></nz-option>
       </nz-select>
     </nz-form-control>

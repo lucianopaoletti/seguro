@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 
 import { Marca } from './types/marca.type';
 import { Modelo } from './types/modelo.type';
+import { Version } from './types/version.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -18,5 +19,9 @@ export class CotizadorVehiculosService {
 
   getModelos(marcaId: number) {
     return this.http.get<Modelo[]>(`${this.API_URL}modelo?marca=${marcaId}`);
+  }
+
+  getVersiones(modeloId: number) {
+    return this.http.get<Version[]>(`${this.API_URL}version?modelo=${modeloId}`);
   }
 }
