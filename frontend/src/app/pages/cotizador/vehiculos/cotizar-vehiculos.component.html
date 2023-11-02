@@ -3,7 +3,7 @@
 <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
   <nz-form-item>
     <nz-form-label>Marca</nz-form-label>
-    <nz-form-control>
+    <nz-form-control nzErrorTip="Seleccione una marca">
       <nz-select
         formControlName="marca"
         (ngModelChange)="marcaChange($event)"
@@ -21,13 +21,13 @@
 
   <nz-form-item>
     <nz-form-label>Modelo</nz-form-label>
-    <nz-form-control>
+    <nz-form-control nzErrorTip="Seleccione un modelo">
       <nz-select
         formControlName="modelo"
         (ngModelChange)="modeloChange($event)"
         [nzLoading]="isModelosLoading"
         nzPlaceHolder="Seleccione"
-        [nzDisabled]="form.get('marca')?.value === null"
+        
       >
         <nz-option
           *ngFor="let modelo of modelos$ | async"
@@ -40,7 +40,7 @@
 
   <nz-form-item>
     <nz-form-label>Versión</nz-form-label>
-    <nz-form-control>
+    <nz-form-control nzErrorTip="Seleccione una versión">
       <nz-select
         formControlName="version"
         (ngModelChange)="versionChange($event)"
@@ -59,7 +59,7 @@
 
   <nz-form-item>
     <nz-form-label>Año</nz-form-label>
-    <nz-form-control>
+    <nz-form-control nzErrorTip="Seleccione un año">
       <nz-select
         formControlName="anio"
         nzPlaceHolder="Seleccione"

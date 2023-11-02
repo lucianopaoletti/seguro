@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, of } from 'rxjs';
 import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Modelo } from './types/modelo.type';
@@ -33,15 +33,17 @@ export class CotizarVehiculosComponent {
 
   private _buildForm() {
     return this.fb.group({
-      marca: [],
-      modelo: [],
-      version: [],
-      anio: [],
+      marca: [{ value: null, disabled: false }, Validators.required],
+      modelo: [{ value: null, disabled: true }, Validators.required],
+      version: [null, Validators.required],
+      anio: [null, Validators.required],
     });
   }
 
   marcaChange(marcaId: number) {
-    this.form.controls['modelo'].reset();
+    const modelo = this.form.controls['modelo'];
+    modelo.reset();
+    modelo.enable();
 
     this.isModelosLoading = true;
     this.modelos$ = this.cotizadorService
@@ -50,10 +52,14 @@ export class CotizarVehiculosComponent {
   }
 
   modeloChange(modeloId: number) {
-    this.form.controls['version'].reset();
+    const version = this.form.controls['version'];
+    version.reset();
 
     if (!modeloId) {
+      version.disable();
       return;
+    } else {
+      version.enable();
     }
 
     this.isVersionesLoading = true;
@@ -63,10 +69,14 @@ export class CotizarVehiculosComponent {
   }
 
   versionChange(versionId: number) {
-    this.form.controls['anio'].reset();
+    const anio = this.form.controls['anio'];
+    anio.reset();
 
     if (!versionId) {
+      anio.disable();
       return;
+    } else {
+      anio.enable();
     }
 
     this.isAniosLoading = true;
@@ -76,6 +86,16 @@ export class CotizarVehiculosComponent {
   }
 
   submitForm() {
-    console.log('submit', this.form.value);
+    if (this.form.valid) {
+      console.log('submit', this.form.value);
+    } else {
+      Object.values(this.form.controls).forEach((control) => {
+        console.log(control);
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 }
