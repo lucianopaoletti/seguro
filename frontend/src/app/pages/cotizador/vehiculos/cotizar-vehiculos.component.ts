@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Observable, finalize, of } from 'rxjs';
+import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
+import { AnioFabricacion } from './types/anio-fabricacion.type';
 
 @Component({
   templateUrl: './cotizar-vehiculos.component.html',
@@ -27,6 +28,9 @@ export class CotizarVehiculosComponent {
   isVersionesLoading = false;
   versiones$: Observable<Version[]> = of([]);
 
+  isAniosLoading = false;
+  anios$: Observable<AnioFabricacion[]> = of([]);
+
   private _buildForm() {
     return this.fb.group({
       marca: [],
@@ -48,10 +52,27 @@ export class CotizarVehiculosComponent {
   modeloChange(modeloId: number) {
     this.form.controls['version'].reset();
 
+    if (!modeloId) {
+      return;
+    }
+
     this.isVersionesLoading = true;
     this.versiones$ = this.cotizadorService
       .getVersiones(modeloId)
       .pipe(finalize(() => (this.isVersionesLoading = false)));
+  }
+
+  versionChange(versionId: number) {
+    this.form.controls['anio'].reset();
+
+    if (!versionId) {
+      return;
+    }
+
+    this.isAniosLoading = true;
+    this.anios$ = this.cotizadorService
+      .getAniosFabricacion(versionId)
+      .pipe(finalize(() => (this.isAniosLoading = false)));
   }
 
   submitForm() {

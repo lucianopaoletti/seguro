@@ -43,6 +43,7 @@
     <nz-form-control>
       <nz-select
         formControlName="version"
+        (ngModelChange)="versionChange($event)"
         [nzLoading]="isVersionesLoading"
         nzPlaceHolder="Seleccione"
         [nzDisabled]="form.get('modelo')?.value === null"
@@ -51,6 +52,24 @@
           *ngFor="let version of versiones$ | async"
           [nzValue]="version.id"
           [nzLabel]="version.nombre"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Año</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="anio"
+        nzPlaceHolder="Seleccione"
+        [nzLoading]="isAniosLoading"
+        [nzDisabled]="form.get('version')?.value === null"
+      >
+        <nz-option
+          *ngFor="let anio of anios$ | async"
+          [nzValue]="anio.id"
+          [nzLabel]="anio.anio"
         ></nz-option>
       </nz-select>
     </nz-form-control>

@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lucianopaoletti.seguro.domain.AnioFabricacion;
 import com.lucianopaoletti.seguro.domain.Marca;
 import com.lucianopaoletti.seguro.domain.Modelo;
 import com.lucianopaoletti.seguro.domain.Version;
+import com.lucianopaoletti.seguro.services.AnioFabricacionService;
 import com.lucianopaoletti.seguro.services.MarcaService;
 import com.lucianopaoletti.seguro.services.ModeloService;
 import com.lucianopaoletti.seguro.services.VersionService;
@@ -29,12 +31,18 @@ public class CotizadorController {
 	MarcaService marcaService;
 	ModeloService modeloService;
 	VersionService versionService;
+	AnioFabricacionService afService;
 
 	@Autowired
-	public CotizadorController(MarcaService marcaService, ModeloService modeloService, VersionService versionService) {
+	public CotizadorController(
+			MarcaService marcaService,
+			ModeloService modeloService,
+			VersionService versionService,
+			AnioFabricacionService afService) {
 		this.marcaService = marcaService;
 		this.modeloService = modeloService;
 		this.versionService = versionService;
+		this.afService = afService;
 	}
 
 	@Operation(summary = "Obtiene todas las marcas")
@@ -55,6 +63,13 @@ public class CotizadorController {
 	public Collection<Version> getVersiones(
 			@Parameter(name = "modelo", description = "ID del modelo", required = true) @RequestParam int modelo) {
 		return this.versionService.getVersiones(modelo);
+	}
+
+	@Operation(summary = "Obtiene los años de fabricación de una versión")
+	@GetMapping("/anioFabricacion")
+	public Collection<AnioFabricacion> getAniosFabricacion(
+			@Parameter(name = "version", description = "ID de la versión", required = true) @RequestParam int version) {
+		return this.afService.getAniosFabricacion(version);
 	}
 
 }

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Marca } from './types/marca.type';
 import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
+import { AnioFabricacion } from './types/anio-fabricacion.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -22,6 +23,14 @@ export class CotizadorVehiculosService {
   }
 
   getVersiones(modeloId: number) {
-    return this.http.get<Version[]>(`${this.API_URL}version?modelo=${modeloId}`);
+    return this.http.get<Version[]>(
+      `${this.API_URL}version?modelo=${modeloId}`
+    );
+  }
+
+  getAniosFabricacion(versionId: number) {
+    return this.http.get<AnioFabricacion[]>(
+      `${this.API_URL}anioFabricacion?version=${versionId}`
+    );
   }
 }
