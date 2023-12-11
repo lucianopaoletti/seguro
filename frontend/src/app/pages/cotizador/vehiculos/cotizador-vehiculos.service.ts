@@ -15,22 +15,36 @@ export class CotizadorVehiculosService {
   private readonly API_URL = `${environment.apiUrl}/cotizador/vehiculos/`;
 
   getMarcas() {
-    return this.http.get<Marca[]>(`${this.API_URL}marca`);
+    return this.http.get<Marca[]>(`${this.API_URL}marcas`);
   }
 
   getModelos(marcaId: number) {
-    return this.http.get<Modelo[]>(`${this.API_URL}modelo?marca=${marcaId}`);
+    return this.http.get<Modelo[]>(`${this.API_URL}modelos?marca=${marcaId}`);
   }
 
   getVersiones(modeloId: number) {
     return this.http.get<Version[]>(
-      `${this.API_URL}version?modelo=${modeloId}`
+      `${this.API_URL}versiones?modelo=${modeloId}`
     );
   }
 
   getAniosFabricacion(versionId: number) {
     return this.http.get<AnioFabricacion[]>(
-      `${this.API_URL}anioFabricacion?version=${versionId}`
+      `${this.API_URL}aniosFabricacion?version=${versionId}`
     );
+  }
+
+  cotizar(params: {
+    marca: number;
+    modelo: number;
+    version: number;
+    anio: number;
+  }) {
+    return this.http.post(`${this.API_URL}cotizarCoberturas`, {
+      marcaId: params.marca,
+      modeloId: params.modelo,
+      versionId: params.version,
+      anioId: params.anio,
+    });
   }
 }

@@ -7,9 +7,9 @@ import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
 
 @Component({
-  templateUrl: './cotizar-vehiculos.component.html',
+  templateUrl: './cotizador-vehiculos.component.html',
 })
-export class CotizarVehiculosComponent {
+export class CotizadorVehiculosComponent {
   constructor(
     private fb: FormBuilder,
     private cotizadorService: CotizadorVehiculosService
@@ -35,8 +35,8 @@ export class CotizarVehiculosComponent {
     return this.fb.group({
       marca: [{ value: null, disabled: false }, Validators.required],
       modelo: [{ value: null, disabled: true }, Validators.required],
-      version: [null, Validators.required],
-      anio: [null, Validators.required],
+      version: [{ value: null, disabled: true }, Validators.required],
+      anio: [{ value: null, disabled: true }, Validators.required],
     });
   }
 
@@ -87,10 +87,9 @@ export class CotizarVehiculosComponent {
 
   submitForm() {
     if (this.form.valid) {
-      console.log('submit', this.form.value);
+      this.cotizadorService.cotizar(this.form.value).subscribe();
     } else {
       Object.values(this.form.controls).forEach((control) => {
-        console.log(control);
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
