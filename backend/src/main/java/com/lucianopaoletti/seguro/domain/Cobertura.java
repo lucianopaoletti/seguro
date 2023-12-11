@@ -1,4 +1,6 @@
 package com.lucianopaoletti.seguro.domain;
 
-public record Cobertura (int numero, String nombre){
+import java.util.List;
+
+public record Cobertura(int numero, String nombre, List<Beneficio> beneficios) {
 }

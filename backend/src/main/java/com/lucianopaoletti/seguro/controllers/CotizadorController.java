@@ -3,7 +3,6 @@ package com.lucianopaoletti.seguro.controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,7 @@ import com.lucianopaoletti.seguro.domain.AnioFabricacion;
 import com.lucianopaoletti.seguro.domain.Cobertura;
 import com.lucianopaoletti.seguro.domain.Marca;
 import com.lucianopaoletti.seguro.domain.Modelo;
+import com.lucianopaoletti.seguro.domain.Vehiculo;
 import com.lucianopaoletti.seguro.domain.Version;
 import com.lucianopaoletti.seguro.domain.exceptions.RequestDataNotFoundException;
 import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasRequest;
@@ -113,8 +113,10 @@ public class CotizadorController {
 		var anio = this.afService
 				.getAnioFabricacion(Integer.valueOf(request.anioId()))
 				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró el año"));
+		
+		var vehiculo = new Vehiculo(marca, modelo, version, anio);
 
-		return this.cotizadorService.cotizarCoberturas();
+		return this.cotizadorService.cotizarCoberturas(vehiculo);
 	}
 
 }

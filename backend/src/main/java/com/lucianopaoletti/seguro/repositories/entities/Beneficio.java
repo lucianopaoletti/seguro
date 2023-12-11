@@ -1,5 +1,6 @@
 package com.lucianopaoletti.seguro.repositories.entities;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -11,17 +12,19 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "coberturas")
+@Table(name = "beneficios")
 @Data
-public class Cobertura {
-
+public class Beneficio {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer numero;
-
+	private Integer id;
+	
 	private String nombre;
 	
-	@OneToMany(mappedBy = "cobertura")
-	private List<CoberturaBeneficio> beneficioIntermedio;
+	private BigDecimal tasa;
+	
+	@OneToMany(mappedBy = "beneficio")
+	private List<CoberturaBeneficio> coberturaIntermedio;
 
 }
