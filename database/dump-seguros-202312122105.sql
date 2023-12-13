@@ -1,4 +1,4 @@
--- MariaDB dump 10.19-11.1.2-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19-11.2.2-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: seguros
 -- ------------------------------------------------------
@@ -14,6 +14,123 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `beneficios`
+--
+
+DROP TABLE IF EXISTS `beneficios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `beneficios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `tasa` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `beneficios`
+--
+
+LOCK TABLES `beneficios` WRITE;
+/*!40000 ALTER TABLE `beneficios` DISABLE KEYS */;
+INSERT INTO `beneficios` VALUES
+(1,'Responsabilidad Civil',0.40),
+(2,'Robo Total',0.03),
+(3,'Robo Parcial',0.03),
+(4,'Incendio Total',0.03),
+(5,'Incendio Parcial',0.03),
+(6,'Daño Total',0.03),
+(7,'Daño Parciales',0.03),
+(8,'Cristales',0.03),
+(9,'Cerradura',0.03),
+(10,'Granizo',0.03),
+(11,'Reposición 0KM',0.03);
+/*!40000 ALTER TABLE `beneficios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `coberturas`
+--
+
+DROP TABLE IF EXISTS `coberturas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coberturas` (
+  `numero` int NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`numero`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `coberturas`
+--
+
+LOCK TABLES `coberturas` WRITE;
+/*!40000 ALTER TABLE `coberturas` DISABLE KEYS */;
+INSERT INTO `coberturas` VALUES
+(1,'Responsabilidad Civil'),
+(3,'Terceros Básicos'),
+(4,'Terceros Completo'),
+(6,'Todo Riesgo');
+/*!40000 ALTER TABLE `coberturas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `coberturas_beneficios`
+--
+
+DROP TABLE IF EXISTS `coberturas_beneficios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coberturas_beneficios` (
+  `cobertura_numero` int NOT NULL,
+  `beneficio_id` int NOT NULL,
+  PRIMARY KEY (`cobertura_numero`,`beneficio_id`),
+  KEY `coberturas_beneficios_beneficio_FK` (`beneficio_id`),
+  CONSTRAINT `coberturas_beneficios_beneficio_FK` FOREIGN KEY (`beneficio_id`) REFERENCES `beneficios` (`id`),
+  CONSTRAINT `coberturas_beneficios_cobertura_FK` FOREIGN KEY (`cobertura_numero`) REFERENCES `coberturas` (`numero`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `coberturas_beneficios`
+--
+
+LOCK TABLES `coberturas_beneficios` WRITE;
+/*!40000 ALTER TABLE `coberturas_beneficios` DISABLE KEYS */;
+INSERT INTO `coberturas_beneficios` VALUES
+(1,1),
+(3,1),
+(4,1),
+(6,1),
+(3,2),
+(4,2),
+(6,2),
+(4,3),
+(6,3),
+(3,4),
+(4,4),
+(6,4),
+(4,5),
+(6,5),
+(3,6),
+(4,6),
+(6,6),
+(4,7),
+(6,7),
+(4,8),
+(6,8),
+(4,9),
+(6,9),
+(4,10),
+(6,10),
+(6,11);
+/*!40000 ALTER TABLE `coberturas_beneficios` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `marcas`
@@ -205,4 +322,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-18 20:06:40
+-- Dump completed on 2023-12-12 19:05:37
