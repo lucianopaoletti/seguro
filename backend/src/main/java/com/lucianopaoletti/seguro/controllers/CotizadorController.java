@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucianopaoletti.seguro.domain.AnioFabricacion;
-import com.lucianopaoletti.seguro.domain.Cobertura;
 import com.lucianopaoletti.seguro.domain.Marca;
 import com.lucianopaoletti.seguro.domain.Modelo;
 import com.lucianopaoletti.seguro.domain.Vehiculo;
 import com.lucianopaoletti.seguro.domain.Version;
 import com.lucianopaoletti.seguro.domain.exceptions.RequestDataNotFoundException;
 import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasRequest;
+import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasResponse;
 import com.lucianopaoletti.seguro.services.AnioFabricacionService;
 import com.lucianopaoletti.seguro.services.CotizadorService;
 import com.lucianopaoletti.seguro.services.MarcaService;
@@ -96,7 +96,7 @@ public class CotizadorController {
 	// Metodos POST
 
 	@PostMapping("/cotizarCoberturas")
-	public Collection<Cobertura> cotizarCoberturas(@Valid @RequestBody CotizarCoberturasRequest request) 
+	public CotizarCoberturasResponse cotizarCoberturas(@Valid @RequestBody CotizarCoberturasRequest request) 
 			throws NumberFormatException, RequestDataNotFoundException {
 		var marca = this.marcaService
 				.getMarca(Integer.valueOf(request.marcaId()))
@@ -116,7 +116,10 @@ public class CotizadorController {
 		
 		var vehiculo = new Vehiculo(marca, modelo, version, anio);
 
-		return this.cotizadorService.cotizarCoberturas(vehiculo);
+		var coberturas = this.cotizadorService.cotizarCoberturas(vehiculo);
+		
+		return new CotizarCoberturasResponse(coberturas);
+		
 	}
 
 }
