@@ -5,9 +5,12 @@ import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
+import { Cobertura } from './types/cobertura.type';
+import { Beneficio } from './types/beneficio.type';
 
 @Component({
   templateUrl: './cotizador-vehiculos.component.html',
+  styleUrls: ['./cotizador-vehiculos.component.scss'],
 })
 export class CotizadorVehiculosComponent {
   constructor(
@@ -30,6 +33,10 @@ export class CotizadorVehiculosComponent {
 
   isAniosLoading = false;
   anios$: Observable<AnioFabricacion[]> = of([]);
+
+  coberturas$: Observable<Cobertura[]> = of([]);
+
+  beneficios$ = this.cotizadorService.getBeneficios();
 
   private _buildForm() {
     return this.fb.group({
@@ -86,15 +93,21 @@ export class CotizadorVehiculosComponent {
   }
 
   submitForm() {
-    if (this.form.valid) {
-      this.cotizadorService.cotizar(this.form.value).subscribe();
-    } else {
+    if (!this.form.valid) {
       Object.values(this.form.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+
+      return;
     }
+
+    this.coberturas$ = this.cotizadorService.cotizar(this.form.value);
+  }
+
+  coberturaPoseeBeneficio(cobertura: Cobertura, beneficio: Beneficio) {
+    return cobertura.beneficios.map((b) => b.id).includes(beneficio.id);
   }
 }

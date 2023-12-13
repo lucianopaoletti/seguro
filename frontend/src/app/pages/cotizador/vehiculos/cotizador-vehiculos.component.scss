@@ -1,0 +1,29 @@
+.coberturas-table {
+  padding-top: 3rem;
+  
+  th {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  td {
+    vertical-align: middle;
+
+    &.centered {
+      text-align: center;
+    }
+
+    &.price {
+      font-weight: 500;
+    }
+
+    .has-beneficio {
+      color: green;
+      font-size: 1.1rem;
+    }
+
+    .no-beneficio {
+      color: grey;
+    }
+  }
+}

@@ -27,7 +27,6 @@
         (ngModelChange)="modeloChange($event)"
         [nzLoading]="isModelosLoading"
         nzPlaceHolder="Seleccione"
-        
       >
         <nz-option
           *ngFor="let modelo of modelos$ | async"
@@ -77,3 +76,53 @@
 
   <button nz-button nzType="primary">Cotizar</button>
 </form>
+
+<ng-container *ngIf="coberturas$ | async as coberturas">
+  <nz-table
+    *ngIf="coberturas.length > 0"
+    #basicTable
+    [nzData]="coberturas"
+    [nzShowPagination]="false"
+    [nzFrontPagination]="false"
+    class="coberturas-table"
+  >
+    <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let cobertura of basicTable.data">
+          {{ cobertura.nombre }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let beneficio of beneficios$ | async">
+        <td>{{ beneficio.nombre }}</td>
+        <td *ngFor="let cobertura of basicTable.data" class="centered">
+          <span
+            *ngIf="coberturaPoseeBeneficio(cobertura, beneficio); else noBeneficio"
+            nz-icon
+            nzType="check-circle"
+            nzTheme="outline"
+            class="has-beneficio"
+          ></span>
+
+          <ng-template #noBeneficio>
+            <span class="no-beneficio">-</span>
+          </ng-template>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td *ngFor="let cobertura of basicTable.data" class="centered price">
+          {{ cobertura.precio | currency }}
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td *ngFor="let cobertura of basicTable.data" class="centered">
+          <button nz-button nzType="primary">Seleccionar</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>

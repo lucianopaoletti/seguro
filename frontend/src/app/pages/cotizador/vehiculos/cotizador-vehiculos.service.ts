@@ -7,6 +7,9 @@ import { Marca } from './types/marca.type';
 import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
+import { Cobertura } from './types/cobertura.type';
+import { map } from 'rxjs';
+import { Beneficio } from './types/beneficio.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -40,11 +43,17 @@ export class CotizadorVehiculosService {
     version: number;
     anio: number;
   }) {
-    return this.http.post(`${this.API_URL}cotizarCoberturas`, {
-      marcaId: params.marca,
-      modeloId: params.modelo,
-      versionId: params.version,
-      anioId: params.anio,
-    });
+    return this.http
+      .post<{ coberturas: Cobertura[] }>(`${this.API_URL}cotizarCoberturas`, {
+        marcaId: params.marca,
+        modeloId: params.modelo,
+        versionId: params.version,
+        anioId: params.anio,
+      })
+      .pipe(map((r) => r.coberturas));
+  }
+
+  getBeneficios() {
+    return this.http.get<Beneficio[]>(`${this.API_URL}beneficios`);
   }
 }

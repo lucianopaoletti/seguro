@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucianopaoletti.seguro.domain.AnioFabricacion;
+import com.lucianopaoletti.seguro.domain.Beneficio;
 import com.lucianopaoletti.seguro.domain.Marca;
 import com.lucianopaoletti.seguro.domain.Modelo;
 import com.lucianopaoletti.seguro.domain.Vehiculo;
@@ -20,6 +21,7 @@ import com.lucianopaoletti.seguro.domain.exceptions.RequestDataNotFoundException
 import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasRequest;
 import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasResponse;
 import com.lucianopaoletti.seguro.services.AnioFabricacionService;
+import com.lucianopaoletti.seguro.services.BeneficioService;
 import com.lucianopaoletti.seguro.services.CotizadorService;
 import com.lucianopaoletti.seguro.services.MarcaService;
 import com.lucianopaoletti.seguro.services.ModeloService;
@@ -44,6 +46,7 @@ public class CotizadorController {
 	VersionService versionService;
 	AnioFabricacionService afService;
 	CotizadorService cotizadorService;
+	BeneficioService beneficioService;
 
 	// -----------------------------------------------------------------------------------------------
 	// Constructores
@@ -54,12 +57,14 @@ public class CotizadorController {
 			ModeloService modeloService,
 			VersionService versionService,
 			AnioFabricacionService afService,
-			CotizadorService cotizadorService) {
+			CotizadorService cotizadorService,
+			BeneficioService beneficioService) {
 		this.marcaService = marcaService;
 		this.modeloService = modeloService;
 		this.versionService = versionService;
 		this.afService = afService;
 		this.cotizadorService = cotizadorService;
+		this.beneficioService = beneficioService;
 	}
 
 	// -----------------------------------------------------------------------------------------------
@@ -90,6 +95,12 @@ public class CotizadorController {
 	public Collection<AnioFabricacion> getAniosFabricacion(
 			@Parameter(name = "version", description = "ID de la versión", required = true) @RequestParam int version) {
 		return this.afService.getAniosFabricacion(version);
+	}
+	
+	@Operation(summary = "Obtiene todos los beneficios que pueden llegar a tener las coberturas")
+	@GetMapping("/beneficios")
+	public Collection<Beneficio> getBeneficios() {
+		return this.beneficioService.getBeneficios();
 	}
 
 	// -----------------------------------------------------------------------------------------------
