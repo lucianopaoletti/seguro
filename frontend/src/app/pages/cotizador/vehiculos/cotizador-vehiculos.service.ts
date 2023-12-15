@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -8,9 +9,9 @@ import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
 import { Cobertura } from './types/cobertura.type';
-import { Observable, map } from 'rxjs';
 import { Beneficio } from './types/beneficio.type';
 import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
+import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -51,5 +52,13 @@ export class CotizadorVehiculosService {
 
   getBeneficios(): Observable<Beneficio[]> {
     return this.http.get<Beneficio[]>(`${this.API_URL}beneficios`);
+  }
+
+  guardarCotizacion(cotizacion: {
+    vehiculo: FormVehiculo;
+    cobertura: Cobertura;
+    asegurado: FormAsegurado
+  }) {
+    return of({id: 1});
   }
 }

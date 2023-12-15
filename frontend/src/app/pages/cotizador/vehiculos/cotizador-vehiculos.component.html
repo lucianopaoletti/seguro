@@ -4,6 +4,7 @@
   <nz-step nzTitle="Vehículo" nzIcon="car"></nz-step>
   <nz-step nzTitle="Coberturas" nzIcon="safety"></nz-step>
   <nz-step nzTitle="Asegurado" nzIcon="user"></nz-step>
+  <nz-step nzTitle="Resumen" nzIcon="profile"></nz-step>
 </nz-steps>
 
 <ng-container [ngSwitch]="stepIndex">
@@ -18,5 +19,9 @@
     [beneficios]="coberturasAndBeneficios.beneficios"
     (selectCoberturaEvent)="selectCobertura($event)"
   ></app-table-coberturas>
-</ng-container>
 
+  <app-form-asegurado
+    *ngSwitchCase="2"
+    (filledEvent)="guardarCotizacion($event)"
+  ></app-form-asegurado>
+</ng-container>

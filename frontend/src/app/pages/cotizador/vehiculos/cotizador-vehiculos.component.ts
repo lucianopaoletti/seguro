@@ -5,6 +5,7 @@ import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Cobertura } from './types/cobertura.type';
 import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
 import { Beneficio } from './types/beneficio.type';
+import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
 
 @Component({
   templateUrl: './cotizador-vehiculos.component.html',
@@ -20,7 +21,15 @@ export class CotizadorVehiculosComponent {
     beneficios: Beneficio[];
   };
 
+  cotizacion: {
+    vehiculo?: FormVehiculo;
+    cobertura?: Cobertura;
+    asegurado?: FormAsegurado;
+  } = {};
+
   cotizarCoberturas(params: FormVehiculo) {
+    this.cotizacion.vehiculo = params;
+
     forkJoin({
       coberturas: this.cotizadorService.cotizar(params),
       beneficios: this.cotizadorService.getBeneficios(),
@@ -33,10 +42,22 @@ export class CotizadorVehiculosComponent {
   }
 
   selectCobertura(cobertura: Cobertura) {
+    this.cotizacion.cobertura = cobertura;
+
     this.stepIndex++;
   }
 
-  previousStep() {
-    this.stepIndex--;
+  guardarCotizacion(asegurado: FormAsegurado) {
+    this.cotizacion.asegurado = asegurado;
+
+    this.cotizadorService.guardarCotizacion({
+      vehiculo: this.cotizacion.vehiculo!,
+      cobertura: this.cotizacion.cobertura!,
+      asegurado: this.cotizacion.asegurado!,
+    }).subscribe({
+      next: () => {
+        this.stepIndex++;
+      }
+    });
   }
 }

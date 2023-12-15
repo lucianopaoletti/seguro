@@ -37,7 +37,7 @@ export class FormVehiculoComponent {
   isAniosLoading = false;
   anios$: Observable<AnioFabricacion[]> = of([]);
 
-  isCotizarLoading = false;
+  isFormLoading = false;
 
   private _buildForm() {
     return this.fb.group({
@@ -111,7 +111,7 @@ export class FormVehiculoComponent {
       return;
     }
 
-    this.isCotizarLoading = true;
+    this.isFormLoading = true;
     this.filledEvent.emit(this.form.value);
   }
 }

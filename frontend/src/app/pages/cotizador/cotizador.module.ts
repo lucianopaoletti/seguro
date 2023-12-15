@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -13,6 +14,7 @@ import { CotizadorVehiculosService } from './vehiculos/cotizador-vehiculos.servi
 import { CotizadorVehiculosComponent } from './vehiculos/cotizador-vehiculos.component';
 import { FormVehiculoComponent } from './vehiculos/form-vehiculo/form-vehiculo.component';
 import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-coberturas.component';
+import { FormAseguradoComponent } from './vehiculos/form-asegurado/form-asegurado.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-cob
     ReactiveFormsModule,
     IconsProviderModule,
     NzFormModule,
+    NzInputModule,
     NzSelectModule,
     NzButtonModule,
     NzTableModule,
@@ -30,6 +33,7 @@ import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-cob
     CotizadorVehiculosComponent,
     FormVehiculoComponent,
     TableCoberturasComponent,
+    FormAseguradoComponent,
   ],
   providers: [CotizadorVehiculosService],
 })

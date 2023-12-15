@@ -1,0 +1,44 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label nzFor="nombre">Nombre</nz-form-label>
+    <nz-form-control nzErrorTip="Ingrese un nombre">
+      <input
+        nz-input
+        type="text"
+        formControlName="nombre"
+        id="nombre"
+        placeholder="Nombre"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="Apellido">Apellido</nz-form-label>
+    <nz-form-control nzErrorTip="Ingrese un apellido">
+      <input
+        nz-input
+        type="text"
+        formControlName="apellido"
+        id="apellido"
+        placeholder="Apellido"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="email">E-mail</nz-form-label>
+    <nz-form-control nzErrorTip="Ingrese un email válido">
+      <input
+        nz-input
+        type="text"
+        formControlName="email"
+        id="email"
+        placeholder="E-mail"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary" [nzLoading]="isFormLoading">
+    Guardar Cotización
+  </button>
+</form>
