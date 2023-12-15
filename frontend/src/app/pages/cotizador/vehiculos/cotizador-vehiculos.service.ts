@@ -8,8 +8,9 @@ import { Modelo } from './types/modelo.type';
 import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
 import { Cobertura } from './types/cobertura.type';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Beneficio } from './types/beneficio.type';
+import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -37,12 +38,7 @@ export class CotizadorVehiculosService {
     );
   }
 
-  cotizar(params: {
-    marca: number;
-    modelo: number;
-    version: number;
-    anio: number;
-  }) {
+  cotizar(params: FormVehiculo) {
     return this.http
       .post<{ coberturas: Cobertura[] }>(`${this.API_URL}cotizarCoberturas`, {
         marcaId: params.marca,
@@ -53,7 +49,7 @@ export class CotizadorVehiculosService {
       .pipe(map((r) => r.coberturas));
   }
 
-  getBeneficios() {
+  getBeneficios(): Observable<Beneficio[]> {
     return this.http.get<Beneficio[]>(`${this.API_URL}beneficios`);
   }
 }

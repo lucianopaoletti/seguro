@@ -1,0 +1,76 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label>Marca</nz-form-label>
+      <nz-form-control nzErrorTip="Seleccione una marca">
+        <nz-select
+          formControlName="marca"
+          (ngModelChange)="marcaChange($event)"
+          [nzLoading]="isMarcasLoading"
+          nzPlaceHolder="Seleccione"
+        >
+          <nz-option
+            *ngFor="let marca of marcas$ | async"
+            [nzValue]="marca.id"
+            [nzLabel]="marca.nombre"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-form-label>Modelo</nz-form-label>
+      <nz-form-control nzErrorTip="Seleccione un modelo">
+        <nz-select
+          formControlName="modelo"
+          (ngModelChange)="modeloChange($event)"
+          [nzLoading]="isModelosLoading"
+          nzPlaceHolder="Seleccione"
+        >
+          <nz-option
+            *ngFor="let modelo of modelos$ | async"
+            [nzValue]="modelo.id"
+            [nzLabel]="modelo.nombre"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-form-label>Versión</nz-form-label>
+      <nz-form-control nzErrorTip="Seleccione una versión">
+        <nz-select
+          formControlName="version"
+          (ngModelChange)="versionChange($event)"
+          [nzLoading]="isVersionesLoading"
+          nzPlaceHolder="Seleccione"
+          [nzDisabled]="form.get('modelo')?.value === null"
+        >
+          <nz-option
+            *ngFor="let version of versiones$ | async"
+            [nzValue]="version.id"
+            [nzLabel]="version.nombre"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  
+    <nz-form-item>
+      <nz-form-label>Año</nz-form-label>
+      <nz-form-control nzErrorTip="Seleccione un año">
+        <nz-select
+          formControlName="anio"
+          nzPlaceHolder="Seleccione"
+          [nzLoading]="isAniosLoading"
+          [nzDisabled]="form.get('version')?.value === null"
+        >
+          <nz-option
+            *ngFor="let anio of anios$ | async"
+            [nzValue]="anio.id"
+            [nzLabel]="anio.anio"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  
+    <button nz-button nzType="primary">Cotizar</button>
+  </form>
