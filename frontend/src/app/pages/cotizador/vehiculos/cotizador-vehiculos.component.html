@@ -84,7 +84,8 @@
     [nzData]="coberturas"
     [nzShowPagination]="false"
     [nzFrontPagination]="false"
-    class="coberturas-table"
+    nzBordered 
+    class="coberturas-table table-scroll"
   >
     <thead>
       <tr>
@@ -118,8 +119,8 @@
         </td>
       </tr>
       <tr>
-        <td></td>
-        <td *ngFor="let cobertura of basicTable.data" class="centered">
+        <td class="action"></td>
+        <td *ngFor="let cobertura of basicTable.data" class="centered action">
           <button nz-button nzType="primary">Seleccionar</button>
         </td>
       </tr>

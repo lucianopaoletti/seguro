@@ -1,5 +1,9 @@
 .coberturas-table {
   padding-top: 3rem;
+
+  .ant-table-content {
+    overflow: scroll;
+  }
   
   th {
     text-align: center;
@@ -15,6 +19,10 @@
 
     &.price {
       font-weight: 500;
+    }
+
+    &.action {
+      background-color: #fafafa;
     }
 
     .has-beneficio {
