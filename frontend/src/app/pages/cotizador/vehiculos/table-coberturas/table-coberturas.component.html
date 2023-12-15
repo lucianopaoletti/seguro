@@ -44,7 +44,9 @@
     <tr>
       <td class="action"></td>
       <td *ngFor="let cobertura of basicTable.data" class="centered action">
-        <button nz-button nzType="primary">Seleccionar</button>
+        <button nz-button nzType="primary" (click)="selectCobertura(cobertura)">
+          Seleccionar
+        </button>
       </td>
     </tr>
   </tbody>

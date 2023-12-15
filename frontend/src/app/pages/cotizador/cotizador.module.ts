@@ -5,6 +5,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { IconsProviderModule } from 'src/app/icons-provider.module';
 
 import { CotizadorRoutingModule } from './cotizador-routing.module';
@@ -23,6 +24,7 @@ import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-cob
     NzSelectModule,
     NzButtonModule,
     NzTableModule,
+    NzStepsModule,
   ],
   declarations: [
     CotizadorVehiculosComponent,

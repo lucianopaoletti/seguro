@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { Cobertura } from '../types/cobertura.type';
 import { Beneficio } from '../types/beneficio.type';
 
@@ -14,7 +15,14 @@ export class TableCoberturasComponent {
   @Input()
   beneficios!: Beneficio[];
 
+  @Output()
+  selectCoberturaEvent = new EventEmitter<Cobertura>();
+
   coberturaPoseeBeneficio(cobertura: Cobertura, beneficio: Beneficio) {
     return cobertura.beneficios.map((b) => b.id).includes(beneficio.id);
+  }
+
+  selectCobertura(cobertura: Cobertura) {
+    this.selectCoberturaEvent.emit(cobertura);
   }
 }

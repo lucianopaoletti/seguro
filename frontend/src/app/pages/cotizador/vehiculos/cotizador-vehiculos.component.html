@@ -1,14 +1,22 @@
 <h1>Cotizar Vehiculos</h1>
 
-<app-form-vehiculo
-  (filledEvent)="cotizarCoberturas($event)"
-></app-form-vehiculo>
+<nz-steps [nzCurrent]="stepIndex">
+  <nz-step nzTitle="Vehículo" nzIcon="car"></nz-step>
+  <nz-step nzTitle="Coberturas" nzIcon="safety"></nz-step>
+  <nz-step nzTitle="Asegurado" nzIcon="user"></nz-step>
+</nz-steps>
 
-<ng-container
-  *ngIf="coberturasAndBeneficios$ | async as coberturasAndBeneficios"
->
+<ng-container [ngSwitch]="stepIndex">
+  <app-form-vehiculo
+    *ngSwitchCase="0"
+    (filledEvent)="cotizarCoberturas($event)"
+  ></app-form-vehiculo>
+
   <app-table-coberturas
+    *ngSwitchCase="1"
     [coberturas]="coberturasAndBeneficios.coberturas"
     [beneficios]="coberturasAndBeneficios.beneficios"
+    (selectCoberturaEvent)="selectCobertura($event)"
   ></app-table-coberturas>
 </ng-container>
+

@@ -37,6 +37,8 @@ export class FormVehiculoComponent {
   isAniosLoading = false;
   anios$: Observable<AnioFabricacion[]> = of([]);
 
+  isCotizarLoading = false;
+
   private _buildForm() {
     return this.fb.group({
       marca: [{ value: null, disabled: false }, Validators.required],
@@ -109,6 +111,7 @@ export class FormVehiculoComponent {
       return;
     }
 
+    this.isCotizarLoading = true;
     this.filledEvent.emit(this.form.value);
   }
 }
