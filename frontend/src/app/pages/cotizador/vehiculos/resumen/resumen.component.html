@@ -1,0 +1,16 @@
+<nz-result
+  nzStatus="success"
+  nzTitle="Cotización Guardada"
+  [nzSubTitle]="subtitle"
+>
+  <ng-template #subtitle>
+    <div class="ant-result-subtitle">
+      <span>Número de cotización: </span>
+      <strong>{{ numeroCotizacion }}</strong>
+    </div>
+  </ng-template>
+
+  <div nz-result-extra>
+    <button nz-button>Ir a Cotizaciones Guardadas</button>
+  </div>
+</nz-result>

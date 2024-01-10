@@ -27,6 +27,8 @@ export class CotizadorVehiculosComponent {
     asegurado?: FormAsegurado;
   } = {};
 
+  cotizacionGuardadaId = 0;
+
   cotizarCoberturas(params: FormVehiculo) {
     this.cotizacion.vehiculo = params;
 
@@ -55,7 +57,9 @@ export class CotizadorVehiculosComponent {
       cobertura: this.cotizacion.cobertura!,
       asegurado: this.cotizacion.asegurado!,
     }).subscribe({
-      next: () => {
+      next: (response) => {
+        this.cotizacionGuardadaId = response.id;
+        
         this.stepIndex++;
       }
     });

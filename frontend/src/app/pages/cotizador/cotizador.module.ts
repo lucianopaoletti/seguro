@@ -7,6 +7,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzResultModule } from 'ng-zorro-antd/result';
 import { IconsProviderModule } from 'src/app/icons-provider.module';
 
 import { CotizadorRoutingModule } from './cotizador-routing.module';
@@ -15,6 +16,7 @@ import { CotizadorVehiculosComponent } from './vehiculos/cotizador-vehiculos.com
 import { FormVehiculoComponent } from './vehiculos/form-vehiculo/form-vehiculo.component';
 import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-coberturas.component';
 import { FormAseguradoComponent } from './vehiculos/form-asegurado/form-asegurado.component';
+import { ResumenComponent } from './vehiculos/resumen/resumen.component';
 
 @NgModule({
   imports: [
@@ -28,12 +30,14 @@ import { FormAseguradoComponent } from './vehiculos/form-asegurado/form-asegurad
     NzButtonModule,
     NzTableModule,
     NzStepsModule,
+    NzResultModule,
   ],
   declarations: [
     CotizadorVehiculosComponent,
     FormVehiculoComponent,
     TableCoberturasComponent,
     FormAseguradoComponent,
+    ResumenComponent,
   ],
   providers: [CotizadorVehiculosService],
 })

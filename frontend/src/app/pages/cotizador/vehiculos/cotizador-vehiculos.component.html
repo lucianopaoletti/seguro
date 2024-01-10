@@ -24,4 +24,6 @@
     *ngSwitchCase="2"
     (filledEvent)="guardarCotizacion($event)"
   ></app-form-asegurado>
+
+  <app-resumen *ngSwitchCase="3" [numeroCotizacion]="cotizacionGuardadaId"></app-resumen>
 </ng-container>
