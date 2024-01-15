@@ -1,0 +1,34 @@
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+    
+token:
+  secretKey: dKnyYnG9E+MMgX7e5AsEq7rhdpC1LtyJlXlyFx6PlzQ=
+  expirationDays: 1
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+              
+      routes:
+        - id: login
+          uri: http://172.17.0.1:8081
+          predicates:
+            - Path=/login
+          filters:
+            - RewritePath=/login, /auth/login
+        
+        - id: cotizador
+          uri: http://172.17.0.1:8082
+          predicates:
+            - Path=/cotizador/**
+          filters:
+            - ValidateToken
+            - RewritePath=/cotizador/(?<segment>.*), /cotizador/$\{segment}
