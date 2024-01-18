@@ -15,9 +15,18 @@ import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
+  // ------------------------------------------------------------------------------
+  // Constructor
+
   constructor(private http: HttpClient) {}
 
+  // ------------------------------------------------------------------------------
+  // Atributos
+
   private readonly API_URL = `${environment.apiUrl}/cotizador/vehiculos/`;
+
+  // ------------------------------------------------------------------------------
+  // Metodos
 
   getMarcas() {
     return this.http.get<Marca[]>(`${this.API_URL}marcas`);
@@ -57,8 +66,8 @@ export class CotizadorVehiculosService {
   guardarCotizacion(cotizacion: {
     vehiculo: FormVehiculo;
     cobertura: Cobertura;
-    asegurado: FormAsegurado
+    asegurado: FormAsegurado;
   }) {
-    return of({id: 1});
+    return of({ id: 1 });
   }
 }

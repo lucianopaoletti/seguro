@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="title">
+    <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+    <h1>Aseguradora</h1>
+  </div>
+
+  <nz-card style="width: 300px">
+    <form
+      nz-form
+      [formGroup]="form"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Ingrese su usuario">
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              nz-input
+              formControlName="username"
+              placeholder="Username"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Ingrese su contraseña">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button
+        nz-button
+        class="login-form-button login-form-margin"
+        nzType="primary"
+        [nzLoading]="isFormLoading"
+      >
+        Log in
+      </button>
+    </form>
+  </nz-card>
+</div>

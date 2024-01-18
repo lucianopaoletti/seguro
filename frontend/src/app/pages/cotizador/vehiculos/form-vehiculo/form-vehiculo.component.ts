@@ -13,10 +13,16 @@ import { FormVehiculo } from './types/form-vehiculo.type';
   templateUrl: './form-vehiculo.component.html',
 })
 export class FormVehiculoComponent {
+  // -------------------------------------------------------------------------
+  // Constructor
+
   constructor(
     private fb: FormBuilder,
     private cotizadorService: CotizadorVehiculosService
   ) {}
+
+  // -------------------------------------------------------------------------
+  // Atributos
 
   @Output()
   filledEvent = new EventEmitter<FormVehiculo>();
@@ -39,6 +45,9 @@ export class FormVehiculoComponent {
 
   isFormLoading = false;
 
+  // -------------------------------------------------------------------------
+  // Metodos privados
+
   private _buildForm() {
     return this.fb.group({
       marca: [{ value: null, disabled: false }, Validators.required],
@@ -47,6 +56,9 @@ export class FormVehiculoComponent {
       anio: [{ value: null, disabled: true }, Validators.required],
     });
   }
+
+  // -------------------------------------------------------------------------
+  // Metodos publicos
 
   marcaChange(marcaId: number) {
     const modelo = this.form.controls['modelo'];
