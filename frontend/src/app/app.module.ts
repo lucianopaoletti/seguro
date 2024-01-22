@@ -3,7 +3,7 @@ import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import es from '@angular/common/locales/es';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { LayoutComponent } from './layout/layout.component';
+import { TokenInterceptor } from './interceptors/token-interceptor';
 
 registerLocaleData(es);
 
@@ -30,7 +31,11 @@ registerLocaleData(es);
     NzMenuModule,
     AppRoutingModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: es_ES }],
+  providers: [
+    { provide: NZ_I18N, useValue: es_ES },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
