@@ -25,10 +25,9 @@ spring:
           filters:
             - RewritePath=/login, /auth/login
         
-        - id: cotizador
+        - id: api-backend
           uri: http://172.17.0.1:8082
           predicates:
-            - Path=/cotizador/**
+            - Path=/**
           filters:
             - ValidateToken
-            - RewritePath=/cotizador/(?<segment>.*), /cotizador/$\{segment}

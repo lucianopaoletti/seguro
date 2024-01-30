@@ -33,7 +33,7 @@ public class JwtService {
 	// -------------------------------------------------------------------------------------
 	// Metodos
 	
-	public String generateJws(String username) {
+	public String generateJws(int id) {
 		var secretKeyEncoded = this.tokenProperties.getSecretKey();
 	    var secretKeyDecoded = Decoders.BASE64.decode(secretKeyEncoded);
 	    var secretKey = Keys.hmacShaKeyFor(secretKeyDecoded);
@@ -45,7 +45,7 @@ public class JwtService {
 	    var expirationDate = Date.from(expirationLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
 	    return Jwts.builder()
-	            .subject(username)
+	            .subject(String.valueOf(id))
 	            .issuedAt(currentDate)
 	            .expiration(expirationDate)
 	            .signWith(secretKey)

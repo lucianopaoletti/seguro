@@ -44,7 +44,7 @@ public class UsuarioService {
 			throw new IncorrectPasswordException("El usuario o la contraseña es incorrecta");
 		}
 		
-		return this.jwtService.generateJws(username);
+		return this.jwtService.generateJws(usuario.getId());
 	}
 
 }

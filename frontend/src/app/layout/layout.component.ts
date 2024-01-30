@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
+import { UserService } from '../services/user.service';
+import { delay, finalize } from 'rxjs';
 
 @Component({
   templateUrl: './layout.component.html',
@@ -8,14 +10,25 @@ import { SessionService } from '../services/session.service';
 })
 export class LayoutComponent {
   // ---------------------------------------------------------------------------------------
+  // Constructor
+
+  constructor(
+    private userService: UserService,
+    private sessionService: SessionService,
+    private router: Router
+  ) {}
+
+  // ---------------------------------------------------------------------------------------
   // Atributos
 
   isCollapsed = false;
 
-  // ---------------------------------------------------------------------------------------
-  // Constructor
-
-  constructor(private sessionService: SessionService, private router: Router) {}
+  isFetchingUser = true;
+  user$ = this.userService
+    .getUserInfo()
+    .pipe(
+      finalize(() => (this.isFetchingUser = false))
+    );
 
   // ---------------------------------------------------------------------------------------
   // Metodos

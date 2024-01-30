@@ -61,7 +61,7 @@ public class ValidateTokenGatewayFilterFactory
 
 			String subject;
 			try {
-				subject = jwtService.validateToken(token);
+				subject = this.jwtService.validateToken(token);
 			} catch (ExpiredJwtException e) {
 				var errorMsg = "El token ha expirado. Por favor, vuelva a loggearse nuevamente.";
 				return generateErrorResponse(exchange, errorMsg);
@@ -77,7 +77,7 @@ public class ValidateTokenGatewayFilterFactory
 
 			var request = exchange.getRequest()
 					.mutate()
-					.header("username", subject)
+					.header("userId", subject)
 					.build();
 
 			var mutatedExchange = exchange.mutate()

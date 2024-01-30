@@ -1,8 +1,8 @@
-import { Beneficio } from "./beneficio.type";
+import { Beneficio } from './beneficio.type';
 
 export interface Cobertura {
-    numero: number;
-    nombre: string;
-    beneficios: Beneficio[];
-    precio: number;
+  numero: number;
+  nombre: string;
+  beneficios: Beneficio[];
+  precio: number;
 }

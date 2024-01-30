@@ -84,9 +84,20 @@ nz-header {
     align-items: center;
   }
 
-  .down-icon {
-    padding-left: 10px;
+  label {
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.75);
+    cursor: pointer;
   }
+
+  .down-icon {
+    padding-left: 8px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.user-loading {
+  margin: 0 24px;
 }
 
 nz-content {
