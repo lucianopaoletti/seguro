@@ -41,7 +41,7 @@ public class UsuarioService {
 
 		var passwordMatches = this.encryptionService.matches(password, usuario.getPassword());
 		if (!passwordMatches) {
-			throw new IncorrectPasswordException("La contraseña es incorrecta");
+			throw new IncorrectPasswordException("El usuario o la contraseña es incorrecta");
 		}
 		
 		return this.jwtService.generateJws(username);
