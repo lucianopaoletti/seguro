@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { es_ES } from 'ng-zorro-antd/i18n';
 
@@ -29,6 +31,8 @@ registerLocaleData(es);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
+    NzAvatarModule,
+    NzDropDownModule,
     AppRoutingModule,
   ],
   providers: [

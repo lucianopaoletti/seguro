@@ -19,4 +19,8 @@ export class SessionService {
   setToken(token: string) {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
+
+  clearToken() {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
 }

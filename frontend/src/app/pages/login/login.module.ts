@@ -6,6 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
@@ -20,6 +21,7 @@ import { LoginService } from './login.service';
     NzInputModule,
     NzButtonModule,
     NzCardModule,
+    NzMessageModule
   ],
   declarations: [LoginComponent],
   providers: [LoginService],

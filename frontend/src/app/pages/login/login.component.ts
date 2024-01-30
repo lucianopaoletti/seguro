@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { finalize } from 'rxjs';
 import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   templateUrl: './login.component.html',
@@ -17,7 +18,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService,
     private sessionService: SessionService,
-    private router: Router
+    private router: Router,
+    private message: NzMessageService
   ) {}
 
   // -------------------------------------------------------------------------
@@ -60,7 +62,18 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           this.sessionService.setToken(response.token);
-          this.router.navigate(['/'])
+          this.router.navigate(['/']);
+        },
+        error: (response) => {
+          console.error(response);
+          const responseError = response?.error;
+          const errorMessage = responseError?.error;
+
+          if (errorMessage) {
+            this.message.error(errorMessage);
+          } else {
+            this.message.error('Se produjo un error en el login');
+          }
         },
       });
   }
