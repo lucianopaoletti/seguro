@@ -133,6 +133,158 @@ INSERT INTO `coberturas_beneficios` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cotizaciones`
+--
+
+DROP TABLE IF EXISTS `cotizaciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cotizaciones` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fecha_guardado` datetime NOT NULL,
+  `usuario_id` int NOT NULL,
+  `cobertura_seleccionada` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cotizaciones_guardadas_usuarios_FK` (`usuario_id`),
+  CONSTRAINT `cotizaciones_guardadas_usuarios_FK` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizaciones`
+--
+
+LOCK TABLES `cotizaciones` WRITE;
+/*!40000 ALTER TABLE `cotizaciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cotizaciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizaciones_asegurado`
+--
+
+DROP TABLE IF EXISTS `cotizaciones_asegurado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cotizaciones_asegurado` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cotizacion_id` int NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cotizaciones_asegurado_cotizaciones_FK` (`cotizacion_id`),
+  CONSTRAINT `cotizaciones_asegurado_cotizaciones_FK` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizaciones_asegurado`
+--
+
+LOCK TABLES `cotizaciones_asegurado` WRITE;
+/*!40000 ALTER TABLE `cotizaciones_asegurado` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cotizaciones_asegurado` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizaciones_coberturas`
+--
+
+DROP TABLE IF EXISTS `cotizaciones_coberturas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cotizaciones_coberturas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cotizacion_id` int NOT NULL,
+  `cobertura_numero` int NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cotizaciones_coberturas_coberturas_FK` (`cobertura_numero`),
+  KEY `cotizaciones_coberturas_cotizaciones_FK` (`cotizacion_id`),
+  CONSTRAINT `cotizaciones_coberturas_coberturas_FK` FOREIGN KEY (`cobertura_numero`) REFERENCES `coberturas` (`numero`),
+  CONSTRAINT `cotizaciones_coberturas_cotizaciones_FK` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizaciones_coberturas`
+--
+
+LOCK TABLES `cotizaciones_coberturas` WRITE;
+/*!40000 ALTER TABLE `cotizaciones_coberturas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cotizaciones_coberturas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizaciones_coberturas_beneficios`
+--
+
+DROP TABLE IF EXISTS `cotizaciones_coberturas_beneficios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cotizaciones_coberturas_beneficios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cotizacion_cobertura_id` int NOT NULL,
+  `beneficio_id` int NOT NULL,
+  `tasa` decimal(10,2) NOT NULL COMMENT 'Valor historico de la tasa',
+  PRIMARY KEY (`id`),
+  KEY `cotizaciones_coberturas_beneficios_beneficios_FK` (`beneficio_id`),
+  KEY `cotizaciones_coberturas_beneficios_cotizaciones_coberturas_FK` (`cotizacion_cobertura_id`),
+  CONSTRAINT `cotizaciones_coberturas_beneficios_beneficios_FK` FOREIGN KEY (`beneficio_id`) REFERENCES `beneficios` (`id`),
+  CONSTRAINT `cotizaciones_coberturas_beneficios_cotizaciones_coberturas_FK` FOREIGN KEY (`cotizacion_cobertura_id`) REFERENCES `cotizaciones_coberturas` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizaciones_coberturas_beneficios`
+--
+
+LOCK TABLES `cotizaciones_coberturas_beneficios` WRITE;
+/*!40000 ALTER TABLE `cotizaciones_coberturas_beneficios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cotizaciones_coberturas_beneficios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizaciones_vehiculos`
+--
+
+DROP TABLE IF EXISTS `cotizaciones_vehiculos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cotizaciones_vehiculos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cotizacion_id` int NOT NULL,
+  `marca_id` int NOT NULL,
+  `modelo_id` int NOT NULL,
+  `version_id` int NOT NULL,
+  `version_anio_fabricacion_id` int NOT NULL,
+  `suma_asegurada` int DEFAULT NULL COMMENT 'Valor historico de suma asegurada',
+  `suma_asegurada_0km` int DEFAULT NULL COMMENT 'Valor historico de suma asegurada',
+  PRIMARY KEY (`id`),
+  KEY `cotizaciones_vehiculos_marcas_FK` (`marca_id`),
+  KEY `cotizaciones_vehiculos_modelos_FK` (`modelo_id`),
+  KEY `cotizaciones_vehiculos_versiones_FK` (`version_id`),
+  KEY `cotizaciones_vehiculos_versiones_anios_fabricacion_FK` (`version_anio_fabricacion_id`),
+  KEY `cotizaciones_vehiculos_cotizaciones_FK` (`cotizacion_id`),
+  CONSTRAINT `cotizaciones_vehiculos_cotizaciones_FK` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `cotizaciones_vehiculos_marcas_FK` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`id`),
+  CONSTRAINT `cotizaciones_vehiculos_modelos_FK` FOREIGN KEY (`modelo_id`) REFERENCES `modelos` (`id`),
+  CONSTRAINT `cotizaciones_vehiculos_versiones_anios_fabricacion_FK` FOREIGN KEY (`version_anio_fabricacion_id`) REFERENCES `versiones_anios_fabricacion` (`id`),
+  CONSTRAINT `cotizaciones_vehiculos_versiones_FK` FOREIGN KEY (`version_id`) REFERENCES `versiones` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizaciones_vehiculos`
+--
+
+LOCK TABLES `cotizaciones_vehiculos` WRITE;
+/*!40000 ALTER TABLE `cotizaciones_vehiculos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cotizaciones_vehiculos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `marcas`
 --
 
@@ -193,6 +345,34 @@ INSERT INTO `modelos` VALUES
 (8,3,'S10'),
 (9,3,'Tracker');
 /*!40000 ALTER TABLE `modelos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(12) NOT NULL,
+  `password` char(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuarios_username_UN` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES
+(1,'test','$2a$10$FSG3jiMKj1uIBU89/iFnu.Xfu4Oav8dLE0de.pM9Y0BbLqOXvh3qu','Test');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -322,4 +502,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-12 19:05:37
+-- Dump completed on 2024-01-31 16:20:12

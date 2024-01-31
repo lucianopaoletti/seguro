@@ -12,6 +12,8 @@ import { Cobertura } from './types/cobertura.type';
 import { Beneficio } from './types/beneficio.type';
 import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
 import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
+import { CotizarCoberturasRequest } from './types/requests/cotizar-coberturas-request.type';
+import { GuardarCotizacionRequest } from './types/requests/guardar-cotizacion-request.type';
 
 @Injectable()
 export class CotizadorVehiculosService {
@@ -48,14 +50,12 @@ export class CotizadorVehiculosService {
     );
   }
 
-  cotizar(params: FormVehiculo) {
+  cotizar(request: CotizarCoberturasRequest) {
     return this.http
-      .post<{ coberturas: Cobertura[] }>(`${this.API_URL}cotizarCoberturas`, {
-        marcaId: params.marca,
-        modeloId: params.modelo,
-        versionId: params.version,
-        anioId: params.anio,
-      })
+      .post<{ coberturas: Cobertura[] }>(
+        `${this.API_URL}cotizarCoberturas`,
+        request
+      )
       .pipe(map((r) => r.coberturas));
   }
 
@@ -63,11 +63,10 @@ export class CotizadorVehiculosService {
     return this.http.get<Beneficio[]>(`${this.API_URL}beneficios`);
   }
 
-  guardarCotizacion(cotizacion: {
-    vehiculo: FormVehiculo;
-    cobertura: Cobertura;
-    asegurado: FormAsegurado;
-  }) {
-    return of({ id: 1 });
+  guardarCotizacion(request: GuardarCotizacionRequest) {
+    return this.http.post<{ id: number }>(
+      `${this.API_URL}guardarCotizacion`,
+      request
+    );
   }
 }

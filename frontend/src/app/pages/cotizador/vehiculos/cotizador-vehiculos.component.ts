@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 
 import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
 import { Cobertura } from './types/cobertura.type';
@@ -12,14 +12,18 @@ import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
   styleUrls: ['./cotizador-vehiculos.component.scss'],
 })
 export class CotizadorVehiculosComponent {
+  // --------------------------------------------------------------------------------
+  // Constructor
+
   constructor(private cotizadorService: CotizadorVehiculosService) {}
+
+  // --------------------------------------------------------------------------------
+  // Atributos
 
   stepIndex = 0;
 
-  coberturasAndBeneficios!: {
-    coberturas: Cobertura[];
-    beneficios: Beneficio[];
-  };
+  coberturas: Cobertura[] = [];
+  beneficios: Beneficio[] = [];
 
   cotizacion: {
     vehiculo?: FormVehiculo;
@@ -29,15 +33,26 @@ export class CotizadorVehiculosComponent {
 
   cotizacionGuardadaId = 0;
 
+  formError$: Subject<string> = new Subject<string>();
+
+  // --------------------------------------------------------------------------------
+  // Metodos
+
   cotizarCoberturas(params: FormVehiculo) {
     this.cotizacion.vehiculo = params;
 
     forkJoin({
-      coberturas: this.cotizadorService.cotizar(params),
+      coberturas: this.cotizadorService.cotizar({
+        marcaId: params.marca,
+        modeloId: params.modelo,
+        versionId: params.version,
+        anioId: params.anio,
+      }),
       beneficios: this.cotizadorService.getBeneficios(),
     }).subscribe({
       next: (response) => {
-        this.coberturasAndBeneficios = response;
+        this.coberturas = response.coberturas;
+        this.beneficios = response.beneficios;
         this.stepIndex++;
       },
     });
@@ -49,19 +64,33 @@ export class CotizadorVehiculosComponent {
     this.stepIndex++;
   }
 
-  guardarCotizacion(asegurado: FormAsegurado) {
+  selectAsegurado(asegurado: FormAsegurado) {
     this.cotizacion.asegurado = asegurado;
+    this.guardarCotizacion();
+  }
 
-    this.cotizadorService.guardarCotizacion({
-      vehiculo: this.cotizacion.vehiculo!,
-      cobertura: this.cotizacion.cobertura!,
-      asegurado: this.cotizacion.asegurado!,
-    }).subscribe({
-      next: (response) => {
-        this.cotizacionGuardadaId = response.id;
-        
-        this.stepIndex++;
-      }
-    });
+  guardarCotizacion() {
+    this.cotizadorService
+      .guardarCotizacion({
+        vehiculo: {
+          marcaId: this.cotizacion.vehiculo?.marca!,
+          modeloId: this.cotizacion.vehiculo?.modelo!,
+          versionId: this.cotizacion.vehiculo?.version!,
+          anioId: this.cotizacion.vehiculo?.anio!,
+        },
+        coberturas: this.coberturas,
+        asegurado: this.cotizacion.asegurado!,
+        coberturaSeleccionada: this.cotizacion.cobertura?.numero!,
+      })
+      .subscribe({
+        next: (response) => {
+          this.cotizacionGuardadaId = response.id;
+
+          this.stepIndex++;
+        },
+        error: () => {
+          this.formError$.next("Se produjo un error al guardar la cotización");
+        }
+      });
   }
 }

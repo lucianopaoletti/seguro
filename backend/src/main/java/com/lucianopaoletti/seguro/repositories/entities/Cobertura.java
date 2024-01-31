@@ -9,10 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "coberturas")
 @Data
+@NoArgsConstructor
 public class Cobertura {
 
 	@Id
@@ -23,5 +25,10 @@ public class Cobertura {
 	
 	@OneToMany(mappedBy = "cobertura")
 	private List<CoberturaBeneficio> beneficioIntermedio;
+	
+	public Cobertura(com.lucianopaoletti.seguro.domain.Cobertura cobertura) {
+		this.numero = cobertura.getNumero();
+		this.nombre = cobertura.getNombre();
+	}
 
 }

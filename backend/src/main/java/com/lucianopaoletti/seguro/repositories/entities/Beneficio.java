@@ -10,12 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "beneficios")
 @Data
+@NoArgsConstructor
 public class Beneficio {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -26,5 +28,11 @@ public class Beneficio {
 	
 	@OneToMany(mappedBy = "beneficio")
 	private List<CoberturaBeneficio> coberturaIntermedio;
+	
+	public Beneficio(com.lucianopaoletti.seguro.domain.Beneficio beneficio) {
+		this.id = beneficio.id();
+		this.nombre = beneficio.nombre();
+		this.tasa = beneficio.tasa();
+	}
 
 }

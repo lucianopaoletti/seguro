@@ -15,14 +15,15 @@
 
   <app-table-coberturas
     *ngSwitchCase="1"
-    [coberturas]="coberturasAndBeneficios.coberturas"
-    [beneficios]="coberturasAndBeneficios.beneficios"
+    [coberturas]="coberturas"
+    [beneficios]="beneficios"
     (selectCoberturaEvent)="selectCobertura($event)"
   ></app-table-coberturas>
 
   <app-form-asegurado
     *ngSwitchCase="2"
-    (filledEvent)="guardarCotizacion($event)"
+    [formErrorEvent]="formError$"
+    (filledEvent)="selectAsegurado($event)"
   ></app-form-asegurado>
 
   <app-resumen *ngSwitchCase="3" [numeroCotizacion]="cotizacionGuardadaId"></app-resumen>

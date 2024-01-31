@@ -12,10 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "versiones_anios_fabricacion")
 @Data
+@NoArgsConstructor
 public class AnioFabricacion {
 
 	@Id
@@ -33,5 +35,12 @@ public class AnioFabricacion {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "version_id", referencedColumnName = "id")
 	private Version version;
+	
+	public AnioFabricacion(com.lucianopaoletti.seguro.domain.AnioFabricacion anio) {
+		this.id = anio.id();
+		this.anio = anio.anio();
+		this.sumaAsegurada = anio.sumaAsegurada();
+		this.sumaAsegurada0km = anio.sumaAsegurada0km();
+	}
 
 }

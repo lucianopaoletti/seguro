@@ -13,4 +13,9 @@ public class CoberturaCotizada extends Cobertura {
 	public CoberturaCotizada(Cobertura cobertura) {
 		super(cobertura);
 	}
+	
+	public CoberturaCotizada(Cobertura cobertura, BigDecimal precio) {
+		super(cobertura);
+		this.precio = precio;
+	}
 }

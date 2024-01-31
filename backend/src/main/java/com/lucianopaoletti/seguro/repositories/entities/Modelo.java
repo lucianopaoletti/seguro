@@ -9,10 +9,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "modelos")
 @Data
+@NoArgsConstructor
 public class Modelo {
 
 	@Id
@@ -24,5 +26,10 @@ public class Modelo {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "marca_id", referencedColumnName = "id")
 	private Marca marca;
+	
+	public Modelo(com.lucianopaoletti.seguro.domain.Modelo modelo) {
+		this.id = modelo.id();
+		this.nombre = modelo.nombre();
+	}
 
 }
