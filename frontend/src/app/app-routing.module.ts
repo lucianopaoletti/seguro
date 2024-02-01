@@ -21,11 +21,11 @@ const routes: Routes = [
           import('./pages/welcome/welcome.module').then((m) => m.WelcomeModule),
       },
       {
-        path: 'cotizador',
+        path: 'vehiculos',
         canMatch: [AuthGuard],
         loadChildren: () =>
-          import('./pages/cotizador/cotizador.module').then(
-            (m) => m.CotizadorModule
+          import('./pages/vehiculos/vehiculos.module').then(
+            (m) => m.VehiculosModule
           ),
       },
     ],

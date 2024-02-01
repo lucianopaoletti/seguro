@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lucianopaoletti.seguro.domain.AnioFabricacion;
+import com.lucianopaoletti.seguro.domain.mappers.AnioFabricacionMapper;
 import com.lucianopaoletti.seguro.repositories.AnioFabricacionRepository;
 
 @Service
@@ -15,36 +16,31 @@ public class AnioFabricacionService {
 	// --------------------------------------------------------------------------------------------
 	// Atributos
 
-	AnioFabricacionRepository afRepository;
+	private AnioFabricacionRepository repository;
+	private AnioFabricacionMapper mapper;
 
 	// --------------------------------------------------------------------------------------------
 	// Constructores
 
 	@Autowired
-	public AnioFabricacionService(AnioFabricacionRepository afRepository) {
-		this.afRepository = afRepository;
+	public AnioFabricacionService(AnioFabricacionRepository repository, AnioFabricacionMapper mapper) {
+		this.repository = repository;
+		this.mapper = mapper;
 	}
 
 	// --------------------------------------------------------------------------------------------
-	// Metodos publicos
+	// Metodos
 
 	public Collection<AnioFabricacion> getAniosFabricacion(int versionId) {
-		return this.afRepository.findByVersionId(versionId)
+		return this.repository.findByVersionId(versionId)
 				.stream()
-				.map(this::convertToDto)
+				.map(this.mapper::toDomain)
 				.toList();
 	}
 
 	public Optional<AnioFabricacion> getAnioFabricacion(int id) {
-		return this.afRepository.findById(id)
-				.map(this::convertToDto);
-	}
-
-	// --------------------------------------------------------------------------------------------
-	// Metodos privados
-
-	public AnioFabricacion convertToDto(com.lucianopaoletti.seguro.repositories.entities.AnioFabricacion af) {
-		return new AnioFabricacion(af.getId(), af.getAnio(), af.getSumaAsegurada(), af.getSumaAsegurada0km());
+		return this.repository.findById(id)
+				.map(this.mapper::toDomain);
 	}
 
 }

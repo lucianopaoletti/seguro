@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -10,13 +10,14 @@ import { Version } from './types/version.type';
 import { AnioFabricacion } from './types/anio-fabricacion.type';
 import { Cobertura } from './types/cobertura.type';
 import { Beneficio } from './types/beneficio.type';
-import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
-import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
+
 import { CotizarCoberturasRequest } from './types/requests/cotizar-coberturas-request.type';
 import { GuardarCotizacionRequest } from './types/requests/guardar-cotizacion-request.type';
+import { Cotizacion } from './types/cotizacion.type';
+import { Page } from 'src/app/types/page.type';
 
 @Injectable()
-export class CotizadorVehiculosService {
+export class VehiculosService {
   // ------------------------------------------------------------------------------
   // Constructor
 
@@ -67,6 +68,12 @@ export class CotizadorVehiculosService {
     return this.http.post<{ id: number }>(
       `${this.API_URL}guardarCotizacion`,
       request
+    );
+  }
+
+  getCotizaciones() {
+    return this.http.get<Page<Cotizacion>>(`${this.API_URL}cotizaciones`).pipe(
+      map(c => c)
     );
   }
 }

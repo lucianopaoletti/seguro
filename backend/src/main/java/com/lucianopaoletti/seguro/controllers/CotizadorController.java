@@ -3,6 +3,7 @@ package com.lucianopaoletti.seguro.controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lucianopaoletti.seguro.domain.AnioFabricacion;
 import com.lucianopaoletti.seguro.domain.Beneficio;
+import com.lucianopaoletti.seguro.domain.Cotizacion;
 import com.lucianopaoletti.seguro.domain.Marca;
 import com.lucianopaoletti.seguro.domain.Modelo;
-import com.lucianopaoletti.seguro.domain.Vehiculo;
 import com.lucianopaoletti.seguro.domain.Version;
 import com.lucianopaoletti.seguro.domain.exceptions.RequestDataNotFoundException;
 import com.lucianopaoletti.seguro.domain.requests.CotizarCoberturasRequest;
@@ -24,8 +25,8 @@ import com.lucianopaoletti.seguro.domain.requests.guardarCotizacion.GuardarCotiz
 import com.lucianopaoletti.seguro.domain.requests.guardarCotizacion.GuardarCotizacionResponse;
 import com.lucianopaoletti.seguro.services.AnioFabricacionService;
 import com.lucianopaoletti.seguro.services.BeneficioService;
+import com.lucianopaoletti.seguro.services.CotizacionService;
 import com.lucianopaoletti.seguro.services.CotizadorService;
-import com.lucianopaoletti.seguro.services.GuardarCotizacionService;
 import com.lucianopaoletti.seguro.services.MarcaService;
 import com.lucianopaoletti.seguro.services.ModeloService;
 import com.lucianopaoletti.seguro.services.VersionService;
@@ -49,7 +50,7 @@ public class CotizadorController {
 	AnioFabricacionService afService;
 	CotizadorService cotizadorService;
 	BeneficioService beneficioService;
-	GuardarCotizacionService guardarCotizacionService;
+	CotizacionService cotizacionService;
 
 	// -----------------------------------------------------------------------------------------------
 	// Constructores
@@ -62,14 +63,14 @@ public class CotizadorController {
 			AnioFabricacionService afService,
 			CotizadorService cotizadorService,
 			BeneficioService beneficioService,
-			GuardarCotizacionService guardarCotizacionService) {
+			CotizacionService guardarCotizacionService) {
 		this.marcaService = marcaService;
 		this.modeloService = modeloService;
 		this.versionService = versionService;
 		this.afService = afService;
 		this.cotizadorService = cotizadorService;
 		this.beneficioService = beneficioService;
-		this.guardarCotizacionService = guardarCotizacionService;
+		this.cotizacionService = guardarCotizacionService;
 
 	}
 
@@ -109,42 +110,28 @@ public class CotizadorController {
 		return this.beneficioService.getBeneficios();
 	}
 
+	@GetMapping("/cotizaciones")
+	public Page<Cotizacion> getCotizaciones(
+			@RequestParam(defaultValue = "0") int pageNumber,
+			@RequestParam(defaultValue = "10") int pageSize) {
+		return this.cotizacionService.getCotizaciones(pageNumber, pageSize);
+	}
+
 	// -----------------------------------------------------------------------------------------------
 	// Metodos POST
 
 	@PostMapping("/cotizarCoberturas")
 	public CotizarCoberturasResponse cotizarCoberturas(@Valid @RequestBody CotizarCoberturasRequest request)
-			throws NumberFormatException, RequestDataNotFoundException {
-		var marca = this.marcaService
-				.getMarca(Integer.valueOf(request.marcaId()))
-				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró la marca"));
-
-		var modelo = this.modeloService
-				.getModelo(Integer.valueOf(request.modeloId()))
-				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró el modelo"));
-
-		var version = this.versionService
-				.getVersion(Integer.valueOf(request.versionId()))
-				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró la versión"));
-
-		var anio = this.afService
-				.getAnioFabricacion(Integer.valueOf(request.anioId()))
-				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró el año"));
-
-		var vehiculo = new Vehiculo(marca, modelo, version, anio);
-
-		var coberturas = this.cotizadorService.cotizarCoberturas(vehiculo);
-
+			throws RequestDataNotFoundException {
+		var coberturas = this.cotizadorService.cotizarCoberturas(request);
 		return new CotizarCoberturasResponse(coberturas);
 	}
 
 	@PostMapping("/guardarCotizacion")
 	public GuardarCotizacionResponse guardarCotizacion(
 			@Valid @RequestBody GuardarCotizacionRequest request,
-			@RequestHeader("userId") int userId) throws NumberFormatException, RequestDataNotFoundException {
-
-		var id = this.guardarCotizacionService.guardarCotizacion(request, userId);
-
+			@RequestHeader("userId") int userId) throws RequestDataNotFoundException {
+		var id = this.cotizacionService.guardarCotizacion(request, userId);
 		return new GuardarCotizacionResponse(id);
 	}
 

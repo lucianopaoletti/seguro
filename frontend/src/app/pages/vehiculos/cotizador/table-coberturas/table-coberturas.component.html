@@ -1,6 +1,6 @@
 <nz-table
   *ngIf="coberturas.length > 0"
-  #basicTable
+  #coberturasTable
   [nzData]="coberturas"
   [nzShowPagination]="false"
   [nzFrontPagination]="false"
@@ -10,7 +10,7 @@
   <thead>
     <tr>
       <th></th>
-      <th *ngFor="let cobertura of basicTable.data">
+      <th *ngFor="let cobertura of coberturasTable.data">
         {{ cobertura.nombre }}
       </th>
     </tr>
@@ -18,7 +18,7 @@
   <tbody>
     <tr *ngFor="let beneficio of beneficios">
       <td>{{ beneficio.nombre }}</td>
-      <td *ngFor="let cobertura of basicTable.data" class="centered">
+      <td *ngFor="let cobertura of coberturasTable.data" class="centered">
         <span
           *ngIf="
             coberturaPoseeBeneficio(cobertura, beneficio);
@@ -37,13 +37,13 @@
     </tr>
     <tr>
       <td></td>
-      <td *ngFor="let cobertura of basicTable.data" class="centered price">
+      <td *ngFor="let cobertura of coberturasTable.data" class="centered price">
         {{ cobertura.precio | currency }}
       </td>
     </tr>
     <tr>
       <td class="action"></td>
-      <td *ngFor="let cobertura of basicTable.data" class="centered action">
+      <td *ngFor="let cobertura of coberturasTable.data" class="centered action">
         <button nz-button nzType="primary" (click)="selectCobertura(cobertura)">
           Seleccionar
         </button>

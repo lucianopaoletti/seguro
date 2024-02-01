@@ -1,0 +1,30 @@
+<h1>Historial Cotizaciones</h1>
+
+<nz-table #basicTable [nzData]="(cotizaciones$ | async) || []">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Asegurado</th>
+      <th>Vehículo</th>
+      <th>Cobertura</th>
+      <th>Fecha</th>
+      <th>Usuario</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.asegurado.nombre }} {{ data.asegurado.apellido }}</td>
+      <td>
+        {{ data.vehiculo.marca.nombre }} 
+        {{ data.vehiculo.modelo.nombre }} 
+        {{ data.vehiculo.version.nombre }} 
+        - 
+        {{ data.vehiculo.anio.anio }}
+      </td>
+      <td>{{ data.coberturaSeleccionada }}</td>
+      <td>{{ data.fechaGuardado | date:'short' }}</td>
+      <td>{{ data.usuario.username }}</td>
+    </tr>
+  </tbody>
+</nz-table>

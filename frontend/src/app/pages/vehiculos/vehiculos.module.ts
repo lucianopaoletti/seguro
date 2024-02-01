@@ -10,17 +10,18 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { IconsProviderModule } from 'src/app/icons-provider.module';
 
-import { CotizadorRoutingModule } from './cotizador-routing.module';
-import { CotizadorVehiculosService } from './vehiculos/cotizador-vehiculos.service';
-import { CotizadorVehiculosComponent } from './vehiculos/cotizador-vehiculos.component';
-import { FormVehiculoComponent } from './vehiculos/form-vehiculo/form-vehiculo.component';
-import { TableCoberturasComponent } from './vehiculos/table-coberturas/table-coberturas.component';
-import { FormAseguradoComponent } from './vehiculos/form-asegurado/form-asegurado.component';
-import { ResumenComponent } from './vehiculos/resumen/resumen.component';
+import { VehiculosRoutingModule } from './vehiculos-routing.module';
+import { VehiculosService } from './vehiculos.service';
+import { CotizadorVehiculosComponent } from './cotizador/cotizador-vehiculos.component';
+import { FormVehiculoComponent } from './cotizador/form-vehiculo/form-vehiculo.component';
+import { TableCoberturasComponent } from './cotizador/table-coberturas/table-coberturas.component';
+import { FormAseguradoComponent } from './cotizador/form-asegurado/form-asegurado.component';
+import { ResumenComponent } from './cotizador/resumen/resumen.component';
+import { HistorialCotizacionesComponent } from './historial-cotizaciones/historial-cotizaciones.component';
 
 @NgModule({
   imports: [
-    CotizadorRoutingModule,
+    VehiculosRoutingModule,
     CommonModule,
     ReactiveFormsModule,
     IconsProviderModule,
@@ -38,7 +39,8 @@ import { ResumenComponent } from './vehiculos/resumen/resumen.component';
     TableCoberturasComponent,
     FormAseguradoComponent,
     ResumenComponent,
+    HistorialCotizacionesComponent,
   ],
-  providers: [CotizadorVehiculosService],
+  providers: [VehiculosService],
 })
-export class CotizadorModule {}
+export class VehiculosModule {}

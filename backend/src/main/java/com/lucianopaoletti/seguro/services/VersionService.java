@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lucianopaoletti.seguro.domain.Version;
+import com.lucianopaoletti.seguro.domain.mappers.VersionMapper;
 import com.lucianopaoletti.seguro.repositories.VersionRepository;
 
 @Service
@@ -15,36 +16,31 @@ public class VersionService {
 	// ----------------------------------------------------------------------------------
 	// Atributos
 
-	VersionRepository versionRepository;
+	private VersionRepository repository;
+	private VersionMapper mapper;
 
 	// ----------------------------------------------------------------------------------
 	// Constructores
 
 	@Autowired
-	public VersionService(VersionRepository versionRepository) {
-		this.versionRepository = versionRepository;
+	public VersionService(VersionRepository repository, VersionMapper mapper) {
+		this.repository = repository;
+		this.mapper = mapper;
 	}
 
 	// ----------------------------------------------------------------------------------
-	// Metodos publicos
+	// Metodos
 
 	public Collection<Version> getVersiones(int modeloId) {
-		return this.versionRepository.findByModeloId(modeloId)
+		return this.repository.findByModeloId(modeloId)
 				.stream()
-				.map(this::convertToDto)
+				.map(this.mapper::toDomain)
 				.toList();
 	}
 
 	public Optional<Version> getVersion(int id) {
-		return this.versionRepository.findById(id)
-				.map(this::convertToDto);
-	}
-
-	// ----------------------------------------------------------------------------------
-	// Metodos privados
-
-	private Version convertToDto(com.lucianopaoletti.seguro.repositories.entities.Version version) {
-		return new Version(version.getId(), version.getNombre());
+		return this.repository.findById(id)
+				.map(this.mapper::toDomain);
 	}
 
 }

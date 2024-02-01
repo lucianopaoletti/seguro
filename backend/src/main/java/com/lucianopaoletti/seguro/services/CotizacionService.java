@@ -7,6 +7,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.lucianopaoletti.seguro.domain.Asegurado;
@@ -16,12 +19,13 @@ import com.lucianopaoletti.seguro.domain.Cotizacion;
 import com.lucianopaoletti.seguro.domain.Usuario;
 import com.lucianopaoletti.seguro.domain.Vehiculo;
 import com.lucianopaoletti.seguro.domain.exceptions.RequestDataNotFoundException;
+import com.lucianopaoletti.seguro.domain.mappers.CotizacionMapper;
 import com.lucianopaoletti.seguro.domain.requests.guardarCotizacion.GuardarCotizacionBeneficio;
 import com.lucianopaoletti.seguro.domain.requests.guardarCotizacion.GuardarCotizacionRequest;
 import com.lucianopaoletti.seguro.repositories.CotizacionRepository;
 
 @Service
-public class GuardarCotizacionService {
+public class CotizacionService {
 
 	// --------------------------------------------------------------------------------------------------
 	// Atributos
@@ -38,20 +42,22 @@ public class GuardarCotizacionService {
 
 	UsuarioService usuarioService;
 
-	CotizacionRepository cotizacionRepository;
+	private CotizacionRepository cotizacionRepository;
+	private CotizacionMapper cotizacionMapper;
 
 	// --------------------------------------------------------------------------------------------------
 	// Constructores
 
 	@Autowired
-	public GuardarCotizacionService(MarcaService marcaService,
+	public CotizacionService(MarcaService marcaService,
 			ModeloService modeloService,
 			VersionService versionService,
 			AnioFabricacionService afService,
 			CoberturaService coberturaService,
 			BeneficioService beneficioService,
 			UsuarioService usuarioService,
-			CotizacionRepository cotizacionRepository) {
+			CotizacionRepository cotizacionRepository,
+			CotizacionMapper cotizacionMapper) {
 		this.marcaService = marcaService;
 		this.modeloService = modeloService;
 		this.versionService = versionService;
@@ -63,6 +69,7 @@ public class GuardarCotizacionService {
 		this.usuarioService = usuarioService;
 
 		this.cotizacionRepository = cotizacionRepository;
+		this.cotizacionMapper = cotizacionMapper;
 	}
 
 	// --------------------------------------------------------------------------------------------------
@@ -75,6 +82,14 @@ public class GuardarCotizacionService {
 		this.cotizacionRepository.save(entity);
 		return entity.getId();
 	}
+	
+	public Page<Cotizacion> getCotizaciones(int pageNumber, int pageSize) {
+		var sort = Sort.by("fechaGuardado").descending();
+		var pageable = PageRequest.of(pageNumber, pageSize, sort);
+		
+		return this.cotizacionRepository.findAll(pageable)
+				.map(this.cotizacionMapper::toDomain);
+	}
 
 	// --------------------------------------------------------------------------------------------------
 	// Metodos privados
@@ -86,15 +101,13 @@ public class GuardarCotizacionService {
 		var coberturas = this.loadCoberturas(request);
 		var asegurado = this.loadAsegurado(request);
 
-		var cotizacion = new Cotizacion(
+		return new Cotizacion(null,
 				vehiculo,
 				coberturas,
 				asegurado,
 				LocalDateTime.now(),
 				usuario,
 				request.coberturaSeleccionada());
-
-		return cotizacion;
 	}
 
 	private Usuario loadUsuario(int id) throws RequestDataNotFoundException {
@@ -119,7 +132,7 @@ public class GuardarCotizacionService {
 				.getAnioFabricacion(Integer.valueOf(request.vehiculo().anioId()))
 				.orElseThrow(() -> new RequestDataNotFoundException("No se encontró el año"));
 
-		return new Vehiculo(marca, modelo, version, anio);
+		return new Vehiculo(null, marca, modelo, version, anio);
 	}
 
 	private List<CoberturaCotizada> loadCoberturas(GuardarCotizacionRequest request)
@@ -167,7 +180,7 @@ public class GuardarCotizacionService {
 	}
 
 	private Asegurado loadAsegurado(GuardarCotizacionRequest request) {
-		return new Asegurado(
+		return new Asegurado(null,
 				request.asegurado().nombre(),
 				request.asegurado().apellido(),
 				request.asegurado().email());

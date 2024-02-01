@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Cobertura } from '../types/cobertura.type';
-import { Beneficio } from '../types/beneficio.type';
+import { Cobertura } from '../../types/cobertura.type';
+import { Beneficio } from '../../types/beneficio.type';
 
 @Component({
   selector: 'app-table-coberturas',

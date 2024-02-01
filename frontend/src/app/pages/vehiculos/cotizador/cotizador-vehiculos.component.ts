@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
 
-import { CotizadorVehiculosService } from './cotizador-vehiculos.service';
-import { Cobertura } from './types/cobertura.type';
+import { VehiculosService } from '../vehiculos.service';
+import { Cobertura } from '../types/cobertura.type';
 import { FormVehiculo } from './form-vehiculo/types/form-vehiculo.type';
-import { Beneficio } from './types/beneficio.type';
+import { Beneficio } from '../types/beneficio.type';
 import { FormAsegurado } from './form-asegurado/types/form-asegurado.type';
 
 @Component({
@@ -15,7 +15,7 @@ export class CotizadorVehiculosComponent {
   // --------------------------------------------------------------------------------
   // Constructor
 
-  constructor(private cotizadorService: CotizadorVehiculosService) {}
+  constructor(private vehiculosService: VehiculosService) {}
 
   // --------------------------------------------------------------------------------
   // Atributos
@@ -42,13 +42,13 @@ export class CotizadorVehiculosComponent {
     this.cotizacion.vehiculo = params;
 
     forkJoin({
-      coberturas: this.cotizadorService.cotizar({
+      coberturas: this.vehiculosService.cotizar({
         marcaId: params.marca,
         modeloId: params.modelo,
         versionId: params.version,
         anioId: params.anio,
       }),
-      beneficios: this.cotizadorService.getBeneficios(),
+      beneficios: this.vehiculosService.getBeneficios(),
     }).subscribe({
       next: (response) => {
         this.coberturas = response.coberturas;
@@ -70,7 +70,7 @@ export class CotizadorVehiculosComponent {
   }
 
   guardarCotizacion() {
-    this.cotizadorService
+    this.vehiculosService
       .guardarCotizacion({
         vehiculo: {
           marcaId: this.cotizacion.vehiculo?.marca!,

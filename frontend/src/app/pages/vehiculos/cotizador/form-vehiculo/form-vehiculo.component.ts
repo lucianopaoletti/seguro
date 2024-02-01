@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, of } from 'rxjs';
 
-import { CotizadorVehiculosService } from '../cotizador-vehiculos.service';
-import { Modelo } from '../types/modelo.type';
-import { Version } from '../types/version.type';
-import { AnioFabricacion } from '../types/anio-fabricacion.type';
 import { FormVehiculo } from './types/form-vehiculo.type';
+import { Modelo } from '../../types/modelo.type';
+import { Version } from '../../types/version.type';
+import { AnioFabricacion } from '../../types/anio-fabricacion.type';
+import { VehiculosService } from '../../vehiculos.service';
 
 @Component({
   selector: 'app-form-vehiculo',
@@ -18,7 +18,7 @@ export class FormVehiculoComponent {
 
   constructor(
     private fb: FormBuilder,
-    private cotizadorService: CotizadorVehiculosService
+    private cotizadorService: VehiculosService
   ) {}
 
   // -------------------------------------------------------------------------

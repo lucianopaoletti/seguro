@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lucianopaoletti.seguro.domain.Modelo;
+import com.lucianopaoletti.seguro.domain.mappers.ModeloMapper;
 import com.lucianopaoletti.seguro.repositories.ModeloRepository;
 
 @Service
@@ -15,36 +16,31 @@ public class ModeloService {
 	// --------------------------------------------------------------------------------
 	// Atributos
 
-	private ModeloRepository modeloRepository;
+	private ModeloRepository repository;
+	private ModeloMapper mapper;
 
 	// --------------------------------------------------------------------------------
 	// Constructores
 
 	@Autowired
-	public ModeloService(ModeloRepository modeloRepository) {
-		this.modeloRepository = modeloRepository;
+	public ModeloService(ModeloRepository repository,ModeloMapper mapper) {
+		this.repository = repository;
+		this.mapper = mapper;
 	}
 
 	// --------------------------------------------------------------------------------
-	// Metodos publicos
+	// Metodos
 
 	public Collection<Modelo> getModelos(int marcaId) {
-		return this.modeloRepository.findByMarcaId(marcaId)
+		return this.repository.findByMarcaId(marcaId)
 				.stream()
-				.map(this::convertToDTO)
+				.map(this.mapper::toDomain)
 				.toList();
 	}
 
 	public Optional<Modelo> getModelo(int id) {
-		return this.modeloRepository.findById(id)
-				.map(this::convertToDTO);
-	}
-
-	// --------------------------------------------------------------------------------
-	// Metodos privados
-
-	private Modelo convertToDTO(com.lucianopaoletti.seguro.repositories.entities.Modelo modelo) {
-		return new Modelo(modelo.getId(), modelo.getNombre());
+		return this.repository.findById(id)
+				.map(this.mapper::toDomain);
 	}
 
 }

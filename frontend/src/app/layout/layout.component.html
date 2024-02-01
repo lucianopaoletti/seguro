@@ -19,10 +19,13 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <li nz-submenu nzOpen nzTitle="Cotizador" nzIcon="calculator">
+      <li nz-submenu nzOpen nzTitle="Vehículos" nzIcon="car">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/cotizador/vehiculos">Vehículos</a>
+            <a routerLink="/vehiculos/cotizador">Cotizador</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/vehiculos/historial">Historial Cotizaciones</a>
           </li>
         </ul>
       </li>
