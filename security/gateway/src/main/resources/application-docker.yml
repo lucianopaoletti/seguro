@@ -1,0 +1,32 @@
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+    
+token:
+  expirationDays: 1
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+              
+      routes:
+        - id: login
+          uri: http://172.17.0.1:8081
+          predicates:
+            - Path=/login
+          filters:
+            - RewritePath=/login, /auth/login
+        
+        - id: api-backend
+          uri: http://172.17.0.1:8082
+          predicates:
+            - Path=/**
+          filters:
+            - ValidateToken
