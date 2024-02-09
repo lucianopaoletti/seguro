@@ -29,11 +29,11 @@ Docker Compose se encargará de crear cada contenedor, inicializar la base de da
 Una vez que cada contenedor este corriendo, se podrá acceder al sistema en la URL: [http://localhost:80](http://localhost:80)
 
 El usuario por defecto tiene las siguientes credenciales:
-
-usuario: test
-contraseña: test
+ 
+    usuario: test
+    contraseña: test
 
 Para acceder a la base de datos, el usuario root tiene las siguientes credenciales:
 
-usuario: sistema
-contraseña: root
+    usuario: root
+    contraseña: root
