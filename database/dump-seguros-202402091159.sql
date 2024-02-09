@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: seguros
 -- ------------------------------------------------------
--- Server version	8.1.0
+-- Server version	8.3.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -147,7 +147,7 @@ CREATE TABLE `cotizaciones` (
   PRIMARY KEY (`id`),
   KEY `cotizaciones_guardadas_usuarios_FK` (`usuario_id`),
   CONSTRAINT `cotizaciones_guardadas_usuarios_FK` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +175,7 @@ CREATE TABLE `cotizaciones_asegurado` (
   PRIMARY KEY (`id`),
   KEY `cotizaciones_asegurado_cotizaciones_FK` (`cotizacion_id`),
   CONSTRAINT `cotizaciones_asegurado_cotizaciones_FK` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `cotizaciones_coberturas` (
   KEY `cotizaciones_coberturas_cotizaciones_FK` (`cotizacion_id`),
   CONSTRAINT `cotizaciones_coberturas_coberturas_FK` FOREIGN KEY (`cobertura_numero`) REFERENCES `coberturas` (`numero`),
   CONSTRAINT `cotizaciones_coberturas_cotizaciones_FK` FOREIGN KEY (`cotizacion_id`) REFERENCES `cotizaciones` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `cotizaciones_coberturas_beneficios` (
   KEY `cotizaciones_coberturas_beneficios_cotizaciones_coberturas_FK` (`cotizacion_cobertura_id`),
   CONSTRAINT `cotizaciones_coberturas_beneficios_beneficios_FK` FOREIGN KEY (`beneficio_id`) REFERENCES `beneficios` (`id`),
   CONSTRAINT `cotizaciones_coberturas_beneficios_cotizaciones_coberturas_FK` FOREIGN KEY (`cotizacion_cobertura_id`) REFERENCES `cotizaciones_coberturas` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `cotizaciones_vehiculos` (
   CONSTRAINT `cotizaciones_vehiculos_modelos_FK` FOREIGN KEY (`modelo_id`) REFERENCES `modelos` (`id`),
   CONSTRAINT `cotizaciones_vehiculos_versiones_anios_fabricacion_FK` FOREIGN KEY (`version_anio_fabricacion_id`) REFERENCES `versiones_anios_fabricacion` (`id`),
   CONSTRAINT `cotizaciones_vehiculos_versiones_FK` FOREIGN KEY (`version_id`) REFERENCES `versiones` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -502,4 +502,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-31 16:20:12
+-- Dump completed on 2024-02-09  9:59:57
