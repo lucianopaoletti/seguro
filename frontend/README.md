@@ -1,27 +1,21 @@
-# Frontend
+# Aseguradora - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.
+Proyecto frontend del sistema **Aseguradora**. Está desarrollado en Angular 16 usando [Ant Design](https://ng.ant.design/docs/introduce/en) como librería estandar para UI.
 
-## Development server
+## Correr proyecto
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Primero se deben descargar las depencencias con el comando:
 
-## Code scaffolding
+```
+npm i
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Luego para correr el proyecto:
 
-## Build
+```
+ng serve
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Una vez ejecutado se podrá acceder al frontend en la url [http://localhost:4200/](http://localhost:4200/).
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Por defecto usará el ambiente *development*, el cual hará los requests de HTTP a la URL [http://172.17.0.1:9000](http://172.17.0.1:9000). Esta URL es el equivalente a localhost, con el puerto 9000, correspondiente al puerto del gateway. O sea que por defecto apuntará al gateway que esta en local, para luego redirigir los requests a las otras APIs locales.
