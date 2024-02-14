@@ -7,6 +7,9 @@ token:
   secretKey: dKnyYnG9E+MMgX7e5AsEq7rhdpC1LtyJlXlyFx6PlzQ=
   expirationDays: 1
 
+server:
+  port: 9000
+
 spring:
   cloud:
     gateway:
