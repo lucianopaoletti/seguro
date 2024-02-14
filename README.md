@@ -18,11 +18,13 @@ El proposito de este sistema es demostrar los conocimientos de programacion que 
 
 Cada servicio se ejecuta dentro de un contenedor Docker, los cuales son administrados con Docker Compose. En el diagrama, el número que figura debajo del nombre de cada servicio corresponde al puerto asignado en Docker Compose, aunque internamente cada contenedor maneja su propio puerto.
 
-## Compilar y correr proyecto
+## Compilar y correr proyecto completo
 
 Para inicializar todos los servicios con sus configuraciones necesarias, compilar y correr los proyectos:
 
-`docker compose up`
+```
+docker compose up
+```
 
 Docker Compose se encargará de crear cada contenedor, inicializar la base de datos con un dump, crear un usuario de prueba, y correr cada servicio.
 
@@ -37,3 +39,6 @@ Para acceder a la base de datos, el usuario root tiene las siguientes credencial
 
     usuario: root
     contraseña: root
+
+## Compilar y correr proyectos individuales
+
