@@ -72,8 +72,6 @@ export class VehiculosService {
   }
 
   getCotizaciones() {
-    return this.http.get<Page<Cotizacion>>(`${this.API_URL}cotizaciones`).pipe(
-      map(c => c)
-    );
+    return this.http.get<Page<Cotizacion>>(`${this.API_URL}cotizaciones`);
   }
 }
